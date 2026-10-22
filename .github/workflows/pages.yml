@@ -1,0 +1,46 @@
+name: Apply Korean patch and deploy Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply patch archives
+        run: |
+          shopt -s nullglob
+          files=(*l10n*.tar.gz)
+          if [ ${#files[@]} -gt 0 ]; then
+            for f in "${files[@]}"; do tar xzf "$f"; git rm -q --cached "$f" 2>/dev/null || true; rm -f "$f"; done
+            git config user.name "sigco3111"
+            git config user.email "sigco3111@users.noreply.github.com"
+            git add -A
+            git commit -m "한국어 번역 패치 적용"
+            git push
+          fi
+      - run: npm ci
+      - run: npx vite build --base=/${{ github.event.repository.name }}/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.d.outputs.page_url }}
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4
