@@ -14,17 +14,17 @@
 const CSS = `
 #rs-menu{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse at 50% 45%,rgba(10,8,7,.72),rgba(6,5,4,.9));
-  font-family:"Times New Roman","Hoefler Text",Georgia,serif;color:#e6dbc6;
+  font-family:"Times New Roman","Hoefler Text",Georgia,"Noto Serif KR","Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",serif;color:#e6dbc6;
   opacity:0;transition:opacity .32s ease;backdrop-filter:blur(2px)}
 #rs-menu.on{opacity:1}
 #rs-menu .panel{width:min(460px,84vw);padding:34px 40px 30px;border:1px solid rgba(214,178,104,.16);
   background:linear-gradient(180deg,rgba(24,19,15,.62),rgba(14,11,9,.72))}
-#rs-menu h2{margin:0 0 2px;font-weight:400;font-size:13px;letter-spacing:.62em;
-  text-transform:uppercase;color:#d9b268;text-indent:.62em}
+#rs-menu h2{margin:0 0 2px;font-weight:400;font-size:13px;letter-spacing:.3em;
+  text-transform:uppercase;color:#d9b268;text-indent:.3em}
 #rs-menu .rule{height:1px;margin:14px 0 22px;
   background:linear-gradient(90deg,rgba(214,178,104,.45),rgba(214,178,104,0))}
 #rs-menu .row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px}
-#rs-menu .lbl{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:#9c917d}
+#rs-menu .lbl{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:#9c917d}
 #rs-menu .val{font-size:11px;letter-spacing:.18em;color:#cbbfa6;min-width:44px;text-align:right}
 #rs-menu input[type=range]{-webkit-appearance:none;appearance:none;width:190px;height:1px;
   background:rgba(230,219,198,.22);outline:none;cursor:pointer}
@@ -32,20 +32,21 @@ const CSS = `
   border-radius:50%;background:#d9b268;cursor:pointer}
 #rs-menu input[type=range]::-moz-range-thumb{width:9px;height:9px;border:0;border-radius:50%;background:#d9b268}
 #rs-menu .seg{display:flex;gap:0}
-#rs-menu .seg button{font-family:inherit;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
-  padding:5px 9px;background:none;color:#8d8371;border:1px solid rgba(230,219,198,.14);
+#rs-menu .seg button{font-family:inherit;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 10px;background:none;color:#8d8371;border:1px solid rgba(230,219,198,.14);
   border-right:none;cursor:pointer;transition:color .2s,background .2s}
 #rs-menu .seg button:last-child{border-right:1px solid rgba(230,219,198,.14)}
 #rs-menu .seg button:hover{color:#e6dbc6}
 #rs-menu .seg button.on{color:#1a1410;background:#d9b268}
 #rs-menu .keys{margin-top:24px;border-top:1px solid rgba(230,219,198,.09);padding-top:16px;
-  display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:10px;letter-spacing:.14em;color:#7d7565}
-#rs-menu .keys b{font-weight:400;color:#b7ab93;letter-spacing:.22em}
-#rs-menu .foot{margin-top:22px;font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;
+  display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12px;letter-spacing:.04em;color:#8d8575}
+#rs-menu .keys b{font-weight:400;color:#b7ab93;letter-spacing:.14em}
+#rs-menu .foot{margin-top:22px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
   color:#6d6555;text-align:center}
 `;
 
 const QUALITIES = ['low', 'medium', 'high', 'ultra'];
+const QUALITY_KO = { low: '낮음', medium: '보통', high: '높음', ultra: '최고' };
 
 export class PauseMenu {
   constructor(ctx, hud) {
@@ -71,35 +72,35 @@ export class PauseMenu {
 
     el.innerHTML = `
       <div class="panel">
-        <h2>Red Sands</h2>
+        <h2>레드 샌즈</h2>
         <div class="rule"></div>
         <div class="row">
-          <span class="lbl">Sound</span>
+          <span class="lbl">소리</span>
           <input id="rs-vol" type="range" min="0" max="100" value="${Math.round(vol * 100)}">
           <span class="val" id="rs-vol-v">${Math.round(vol * 100)}</span>
         </div>
         <div class="row">
-          <span class="lbl">Quality</span>
-          <span class="seg" id="rs-q">${QUALITIES.map((n) => `<button data-q="${n}"${n === q ? ' class="on"' : ''}>${n}</button>`).join('')}</span>
+          <span class="lbl">화질</span>
+          <span class="seg" id="rs-q">${QUALITIES.map((n) => `<button data-q="${n}"${n === q ? ' class="on"' : ''}>${QUALITY_KO[n]}</button>`).join('')}</span>
         </div>
         <div class="row">
-          <span class="lbl">Interface</span>
+          <span class="lbl">인터페이스</span>
           <span class="seg" id="rs-hud">
-            <button data-h="1" class="on">Shown</button><button data-h="0">Hidden</button>
+            <button data-h="1" class="on">표시</button><button data-h="0">숨김</button>
           </span>
         </div>
         <div class="keys">
-          <b>W A S D</b><span>move &amp; ride</span>
-          <b>Shift</b><span>run · spur on</span>
-          <b>Mouse</b><span>look — click to capture the pointer</span>
-          <b>E</b><span>mount &amp; dismount</span>
-          <b>Space</b><span>hop</span>
-          <b>Ctrl</b><span>crouch</span>
-          <b>H</b><span>hide the interface</span>
-          <b>M</b><span>mute</span>
-          <b>Esc</b><span>pause</span>
+          <b>W A S D</b><span>이동 · 말 달리기</span>
+          <b>Shift</b><span>달리기 · 박차</span>
+          <b>Mouse</b><span>시점 이동 - 클릭하면 마우스가 고정됩니다</span>
+          <b>E</b><span>말 타기 · 내리기</span>
+          <b>Space</b><span>점프</span>
+          <b>Ctrl</b><span>웅크리기</span>
+          <b>H</b><span>인터페이스 숨기기</span>
+          <b>M</b><span>음소거</span>
+          <b>Esc</b><span>일시정지</span>
         </div>
-        <div class="foot">press escape to return</div>
+        <div class="foot">ESC를 눌러 돌아가기</div>
       </div>`;
     (document.getElementById('app') || document.body).appendChild(el);
     this.el = el;

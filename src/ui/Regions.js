@@ -13,17 +13,17 @@ import { rng } from '../core/Context.js';
  */
 
 const HEAD = [
-  'Bitter', 'Ochre', 'Coyote', 'Rattler', 'Cinnabar', 'Saltpan', 'Widow',
-  'Hangman', 'Dry', 'Broken', 'Lonesome', 'Painted', 'Cottonwood', 'Buzzard',
-  'Silver', 'Redemption', 'Sundown', 'Chalk', 'Gallows', 'Thirsty',
+  '쓰라린', '황토빛', '코요테', '방울뱀', '주홍', '소금밭', '과부',
+  '교수대', '메마른', '부서진', '외로운', '채색된', '미루나무', '독수리',
+  '은빛', '구원의', '해질녘', '백악', '처형장', '목마른',
 ];
 const TAIL = [
-  'Flats', 'Draw', 'Gulch', 'Basin', 'Bluff', 'Ridge', 'Fork', 'Hollow',
-  'Mesa', 'Creek', 'Wash', 'Bend', 'Rise', 'Sink', 'Pass', 'Butte',
+  '평원', '골짜기', '협곡', '분지', '절벽', '능선', '갈림길', '계곡',
+  '고원', '개울', '물골', '굽이', '언덕', '함몰지', '고개', '돌산',
 ];
 const TOWNS = [
-  'Armadillo', 'Tumbleweed', 'Blackwater', 'Manzanita', 'Cholla Springs',
-  'Perdido', 'Val Verde', 'Cimarron',
+  '아르마딜로', '텀블위드', '블랙워터', '마나니타', '촐라 스프링스',
+  '페르디도', '발 베르데', '시마론',
 ];
 
 function pick(arr, r) { return arr[(r() * arr.length) | 0]; }
@@ -63,12 +63,12 @@ export class Regions {
     const river = ctx.poi.get('river');
     if (river) {
       const p = river.pos || river;
-      add(p.x, p.z, `${pick(HEAD, r)} Bend`, 'river', 300);
+      add(p.x, p.z, `${pick(HEAD, r)} 굽이`, 'river', 300);
     }
     const forest = ctx.poi.get('forest');
     if (forest) {
       const p = forest.pos || forest;
-      add(p.x, p.z, `${pick(['Pinewood', 'Timber', 'Blackpine', 'Cedar'], r)} ${pick(['Rise', 'Stand', 'Hollow'], r)}`, 'forest', 420);
+      add(p.x, p.z, `${pick(['소나무숲', '목재', '검은소나무', '삼나무'], r)} ${pick(['언덕', '군락', '골짜기'], r)}`, 'forest', 420);
     }
 
     // --- a jittered lattice over the playable square -----------------------

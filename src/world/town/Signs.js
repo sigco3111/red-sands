@@ -14,18 +14,18 @@ import * as THREE from 'three';
  */
 
 const BOARDS = [
-  { key: 'general', text: 'GENERAL STORE', sub: 'DRY GOODS  ·  PROVISIONS', paint: '#20130c', ground: '#a98a5e', ratio: 5.0 },
-  { key: 'saloon', text: 'SALOON', sub: 'WHISKEY  ·  BEER  ·  ROOMS', paint: '#efdcb4', ground: '#6a2320', ratio: 4.4 },
-  { key: 'bank', text: 'BANK', sub: 'ASSAY  ·  EXCHANGE', paint: '#1c1b17', ground: '#b6ae95', ratio: 4.0 },
-  { key: 'hotel', text: 'HOTEL', sub: 'BEDS  ·  BATHS  ·  MEALS', paint: '#f0e2c4', ground: '#3d4a44', ratio: 4.6 },
-  { key: 'livery', text: 'LIVERY & FEED', sub: 'HORSES BOARDED', paint: '#241a10', ground: '#9c8355', ratio: 5.2 },
-  { key: 'sheriff', text: 'SHERIFF', sub: 'COUNTY OF RED SANDS', paint: '#e8dcc0', ground: '#4a4034', ratio: 4.4 },
-  { key: 'smith', text: 'BLACKSMITH', sub: 'WAGON REPAIR', paint: '#efe0bd', ground: '#43352a', ratio: 5.0 },
-  { key: 'barber', text: 'BARBER', sub: 'SHAVE  ·  HAIRCUT', paint: '#2a1c14', ground: '#c2b48c', ratio: 4.2 },
-  { key: 'gazette', text: 'GAZETTE', sub: 'PRINTING  ·  TELEGRAPH', paint: '#211d16', ground: '#ab9d7c', ratio: 4.6 },
-  { key: 'church', text: 'FIRST CHURCH', sub: 'SERVICE SUNDAY', paint: '#3a3128', ground: '#cbc3ae', ratio: 5.0 },
-  { key: 'undertaker', text: 'UNDERTAKER', sub: 'COFFINS MADE', paint: '#ded2b6', ground: '#332c26', ratio: 5.0 },
-  { key: 'stable', text: 'STABLE', sub: 'HAY  ·  GRAIN', paint: '#26190f', ground: '#a0885e', ratio: 4.2 },
+  { key: 'general', text: '잡화점', sub: '건어물 · 식료품', paint: '#20130c', ground: '#a98a5e', ratio: 5.0 },
+  { key: 'saloon', text: '술집', sub: '위스키 · 맥주 · 객실', paint: '#efdcb4', ground: '#6a2320', ratio: 4.4 },
+  { key: 'bank', text: '은행', sub: '감정 · 환전', paint: '#1c1b17', ground: '#b6ae95', ratio: 4.0 },
+  { key: 'hotel', text: '호텔', sub: '침대 · 목욕 · 식사', paint: '#f0e2c4', ground: '#3d4a44', ratio: 4.6 },
+  { key: 'livery', text: '마구간 · 사료', sub: '말 위탁', paint: '#241a10', ground: '#9c8355', ratio: 5.2 },
+  { key: 'sheriff', text: '보안관', sub: '레드 샌즈 군', paint: '#e8dcc0', ground: '#4a4034', ratio: 4.4 },
+  { key: 'smith', text: '대장간', sub: '마차 수리', paint: '#efe0bd', ground: '#43352a', ratio: 5.0 },
+  { key: 'barber', text: '이발소', sub: '면도 · 이발', paint: '#2a1c14', ground: '#c2b48c', ratio: 4.2 },
+  { key: 'gazette', text: '신문사', sub: '인쇄 · 전신', paint: '#211d16', ground: '#ab9d7c', ratio: 4.6 },
+  { key: 'church', text: '제일교회', sub: '일요 예배', paint: '#3a3128', ground: '#cbc3ae', ratio: 5.0 },
+  { key: 'undertaker', text: '장의사', sub: '관 제작', paint: '#ded2b6', ground: '#332c26', ratio: 5.0 },
+  { key: 'stable', text: '마구간', sub: '건초 · 곡물', paint: '#26190f', ground: '#a0885e', ratio: 4.2 },
 ];
 
 /**
@@ -37,10 +37,10 @@ const BOARDS = [
  * pale ground, heavy black display face, a rule, and torn/curled corners.
  */
 const BILLS = [
-  { key: 'bill_wanted', head: 'WANTED', body: ['DEAD OR ALIVE', '$500 REWARD'], ratio: 0.72 },
-  { key: 'bill_notice', head: 'NOTICE', body: ['STOCK AUCTION', 'SATURDAY NOON'], ratio: 0.74 },
-  { key: 'bill_tonic', head: 'DR. BELL’S', body: ['TONIC', 'CURES ALL ILLS'], ratio: 0.68 },
-  { key: 'bill_stage', head: 'STAGE LINE', body: ['DAILY TO', 'ARMADILLO'], ratio: 0.76 },
+  { key: 'bill_wanted', head: '현상수배', body: ['생사불문', '현상금 $500'], ratio: 0.72 },
+  { key: 'bill_notice', head: '공고', body: ['가축 경매', '토요일 정오'], ratio: 0.74 },
+  { key: 'bill_tonic', head: '벨 박사의', body: ['만병통치 강장제', '모든 병을 낫게 합니다'], ratio: 0.68 },
+  { key: 'bill_stage', head: '역마차 노선', body: ['매일 운행:', '아르마딜로'], ratio: 0.76 },
 ];
 
 function hash(i) {
@@ -107,18 +107,18 @@ export function buildSignAtlas(size = 1024) {
 
     /* --- lettering ------------------------------------------------------ */
     const cxm = x + w * 0.5;
-    const main = Math.min(h * 0.42, (w * 1.65) / Math.max(6, b.text.length));
+    const main = Math.min(h * 0.40, (w * 0.86) / Math.max(3, b.text.length));
     g.textAlign = 'center';
     g.textBaseline = 'middle';
     g.fillStyle = 'rgba(0,0,0,0.30)';
-    g.font = `bold ${main}px Georgia, "Times New Roman", serif`;
+    g.font = `bold ${main}px Georgia, "Times New Roman", "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", "Malgun Gothic", serif`;
     g.fillText(b.text, cxm + main * 0.035, y + h * 0.40 + main * 0.04);
     g.fillStyle = b.paint;
     g.fillText(b.text, cxm, y + h * 0.38);
 
     if (b.sub) {
-      const sub = Math.min(h * 0.14, (w * 0.8) / Math.max(10, b.sub.length));
-      g.font = `${sub}px Georgia, "Times New Roman", serif`;
+      const sub = Math.min(h * 0.15, (w * 0.84) / Math.max(6, b.sub.length));
+      g.font = `${sub}px Georgia, "Times New Roman", "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", "Malgun Gothic", serif`;
       g.fillStyle = b.paint;
       g.globalAlpha = 0.85;
       g.fillText(b.sub, cxm, y + h * 0.72);
@@ -193,9 +193,9 @@ export function buildSignAtlas(size = 1024) {
       }
       g.textAlign = 'center';
       g.textBaseline = 'middle';
-      const hs = Math.min(bh * 0.20, (w * 1.5) / Math.max(6, b.head.length));
+      const hs = Math.min(bh * 0.20, (w * 0.86) / Math.max(3, b.head.length));
       g.fillStyle = '#171310';
-      g.font = `bold ${hs}px Georgia, "Times New Roman", serif`;
+      g.font = `bold ${hs}px Georgia, "Times New Roman", "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", "Malgun Gothic", serif`;
       g.fillText(b.head, x + w * 0.5, y + bh * 0.20);
       g.lineWidth = Math.max(1, bh * 0.010);
       g.strokeStyle = '#171310';
@@ -209,8 +209,8 @@ export function buildSignAtlas(size = 1024) {
         g.fillRect(x + w * 0.24, y + bh * 0.36, w * 0.52, bh * 0.30);
       }
       for (let L = 0; L < b.body.length; L++) {
-        const ls = Math.min(bh * 0.095, (w * 0.86) / Math.max(10, b.body[L].length));
-        g.font = `${ls}px Georgia, "Times New Roman", serif`;
+        const ls = Math.min(bh * 0.095, (w * 0.86) / Math.max(6, b.body[L].length));
+        g.font = `${ls}px Georgia, "Times New Roman", "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", "Malgun Gothic", serif`;
         g.fillStyle = '#1d1712';
         g.fillText(b.body[L], x + w * 0.5,
           y + bh * (i === 0 ? 0.74 : 0.52) + L * bh * 0.13);

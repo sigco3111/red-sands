@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Regions, timePhrase } from './Regions.js';
+import { tr, KO_FONT, isKorean, timePhraseKo } from '../i18n.js';
 import { PauseMenu } from './PauseMenu.js';
 import { MOUNT_RANGE } from '../player/Horse.js';
 
@@ -27,7 +28,7 @@ import { MOUNT_RANGE } from '../player/Horse.js';
  *   damage(amount) / setStamina(v)
  */
 
-const FONT = '"Times New Roman", "Hoefler Text", Georgia, serif';
+const FONT = `"Times New Roman", "Hoefler Text", Georgia, ${KO_FONT}, serif`;
 
 /* Warm parchment ink, cool-neutral shadow. */
 const INK = [235, 224, 203];
@@ -262,7 +263,7 @@ export class HUD {
     this._titleT = 0;
   }
 
-  notify(text) { this._notice = String(text); this._noticeT = 2.6; }
+  notify(text) { this._notice = tr(String(text)); this._noticeT = 2.6; }
 
   /**
    * "Did I hit it, and is it dead?" — the one question a hunting rifle in a
@@ -429,7 +430,7 @@ export class HUD {
       const reg = this.regions.current;
       if (!reg) return;
       const h = this.ctx.env.timeOfDay;
-      this.titleCard(reg.label, timePhrase(h));
+      this.titleCard(reg.label, timePhraseKo(h));
     }
   }
 
@@ -835,6 +836,7 @@ export class HUD {
   }
 
   _controlRow(c, W, s, A, items, y) {
+    items = items.map((it) => [it[0], tr(it[1]), it[2]]);
     /* Bigger, and much tighter. Half an em of air between letters is a display
      * mannerism: at eleven pixels it dissolves the word shape entirely, which
      * is precisely what made MOVE / CROUCH / HOLD BREATH unreadable. The key
@@ -992,6 +994,8 @@ export class HUD {
     outline = 0.85,
   } = {}) {
     if (!str || alpha <= 0.004) return 0;
+    str = tr(str);
+    if (isKorean(str)) track = Math.min(track, 0.04);
     c.font = `${size.toFixed(1)}px ${FONT}`;
     const sp = size * track;
     const n = str.length;
@@ -1222,7 +1226,7 @@ export class HUD {
     if (!this._prompt) return;
     const size = 13 * s;
     const key = this._prompt.key;
-    const label = this._prompt.label.toUpperCase();
+    const label = tr(this._prompt.label).toUpperCase();
     // Rides on top of whatever the first-run block left standing.
     const y = this._stackY - 24 * s;
     const box = 24 * s;
@@ -1343,7 +1347,7 @@ export class HUD {
 
 /* -------------------------------------------------------------------- utils */
 
-const CARD = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+const CARD = ['북', '북동', '동', '남동', '남', '남서', '서', '북서'];
 
 /** Credit at which a control counts as learned and its hint retires. */
 const LEARN = 2.6;

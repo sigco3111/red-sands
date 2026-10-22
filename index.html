@@ -1,58 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>RED SANDS — An Open World Western, in the Browser</title>
-<meta name="description" content="A procedurally generated open-world western running entirely in the browser. Physical atmospheric scattering, hydraulic-eroded terrain, volumetric clouds, hunting, and a town — built with three.js and WebGL2.">
+<title>레드 샌즈 - 브라우저에서 즐기는 오픈월드 서부극</title>
+<meta name="description" content="브라우저에서 모두 실행되는 절차적 생성 오픈월드 서부극. 물리 기반 대기 산란, 수력 침식 지형, 체적 구름, 사냥, 그리고 마을까지 - three.js와 WebGL2로 만들었습니다. (한국어 번역판)">
 <meta name="theme-color" content="#07060a">
-<link rel="canonical" href="https://red-sands.vercel.app/">
+<link rel="canonical" href="https://sigco3111.github.io/red-sands/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="RED SANDS">
-<meta property="og:title" content="RED SANDS — An Open World Western, in the Browser">
-<meta property="og:description" content="Ride, hunt and explore an 8km procedurally generated frontier. No downloads, no plugins — three.js and WebGL2.">
-<meta property="og:url" content="https://red-sands.vercel.app/">
-<meta property="og:image" content="https://red-sands.vercel.app/og.jpg">
+<meta property="og:site_name" content="레드 샌즈">
+<meta property="og:title" content="레드 샌즈 - 브라우저에서 즐기는 오픈월드 서부극">
+<meta property="og:description" content="말을 타고 사냥하며 8km 규모의 절차적 서부 개척지를 탐험하세요. 설치도 플러그인도 필요 없습니다.">
+<meta property="og:url" content="https://sigco3111.github.io/red-sands/">
+<meta property="og:image" content="https://sigco3111.github.io/red-sands/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Golden-hour view across a western frontier: sandstone buttes and a mountain range receding into haze, seen over a dark treeline.">
+<meta property="og:image:alt" content="황금빛 노을 속 서부 개척지: 사암 뷰트와 아득한 산맥이 안개 너머로 물러납니다.">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RED SANDS — An Open World Western, in the Browser">
-<meta name="twitter:description" content="Ride, hunt and explore an 8km procedurally generated frontier. No downloads, no plugins — three.js and WebGL2.">
-<meta name="twitter:image" content="https://red-sands.vercel.app/og.jpg">
-<meta name="twitter:image:alt" content="Golden-hour view across a western frontier: sandstone buttes and a mountain range receding into haze, seen over a dark treeline.">
+<meta name="twitter:title" content="레드 샌즈 - 브라우저에서 즐기는 오픈월드 서부극">
+<meta name="twitter:description" content="말을 타고 사냥하며 8km 규모의 절차적 서부 개척지를 탐험하세요. 설치도 플러그인도 필요 없습니다.">
+<meta name="twitter:image" content="https://sigco3111.github.io/red-sands/og.jpg">
+<meta name="twitter:image:alt" content="황금빛 노을 속 서부 개척지: 사암 뷰트와 아득한 산맥이 안개 너머로 물러납니다.">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
   html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000;color:#e8dcc8;
-    font-family:"Times New Roman",Georgia,serif;-webkit-font-smoothing:antialiased}
+    font-family:"Times New Roman",Georgia,"Noto Serif KR","Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",serif;-webkit-font-smoothing:antialiased}
   #app{position:fixed;inset:0}
   canvas{display:block;width:100%;height:100%;outline:none}
   #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
     flex-direction:column;gap:18px;background:#07060a;z-index:100;transition:opacity 1.2s ease}
   #boot.gone{opacity:0;pointer-events:none}
-  #boot h1{font-size:clamp(28px,6vw,64px);letter-spacing:.34em;margin:0;font-weight:400;
+  #boot h1{font-size:clamp(28px,6vw,64px);letter-spacing:.2em;margin:0;font-weight:400;
     color:#d8c39a;text-shadow:0 0 40px rgba(200,150,70,.35)}
-  #boot .sub{letter-spacing:.5em;font-size:11px;color:#6b6255;text-transform:uppercase}
+  #boot .sub{letter-spacing:.3em;font-size:13px;color:#6b6255;text-transform:uppercase}
   #bar{width:min(420px,60vw);height:1px;background:#241f1a;position:relative;overflow:hidden}
   #bar i{position:absolute;inset:0 100% 0 0;background:linear-gradient(90deg,#7a5a28,#e0c184);
     transition:right .35s ease}
-  #boot .task{font-size:11px;letter-spacing:.22em;color:#5c554a;text-transform:uppercase;height:1em}
+  #boot .task{font-size:13px;letter-spacing:.1em;color:#5c554a;text-transform:uppercase;height:1em}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div id="boot">
-  <div class="sub">An Open World</div>
-  <h1>RED SANDS</h1>
+  <div class="sub">오픈월드 서부극</div>
+  <h1>레드 샌즈</h1>
   <div id="bar"><i id="barfill"></i></div>
-  <div class="task" id="boottask">initialising</div>
+  <div class="task" id="boottask">초기화 중</div>
 </div>
 <script type="module" src="/src/main.js"></script>
 </body>

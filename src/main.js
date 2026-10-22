@@ -66,17 +66,28 @@ const bootEl = document.getElementById('boot');
 const barEl = document.getElementById('barfill');
 const taskEl = document.getElementById('boottask');
 const LABELS = {
-  procTextures: 'weaving materials', timeOfDay: 'placing the sun',
-  weather: 'stirring the air', terrain: 'raising the land',
-  water: 'cutting the rivers', vegetation: 'sowing the grass',
-  scatter: 'strewing the stones', town: 'building the town',
-  lighting: 'hanging the light', sky: 'painting the sky',
-  clouds: 'gathering cloud', particles: 'seeding dust',
-  physics: 'setting the rules', player: 'waking the rider',
-  horse: 'saddling up', wildlife: 'releasing the herds',
-  camera: 'framing the shot', postfx: 'grading the film',
-  audio: 'tuning the wind', hud: 'final touches', ready: 'ready',
+  procTextures: '재질을 짜는 중', timeOfDay: '태양을 띄우는 중',
+  weather: '공기를 휘젓는 중', terrain: '대지를 일으키는 중',
+  water: '강을 내는 중', vegetation: '풀씨를 뿌리는 중',
+  scatter: '돌을 흩뿌리는 중', town: '마을을 짓는 중',
+  lighting: '조명을 거는 중', sky: '하늘을 칠하는 중',
+  clouds: '구름을 모으는 중', particles: '먼지를 일으키는 중',
+  physics: '규칙을 세우는 중', player: '기수를 깨우는 중',
+  horse: '안장을 얹는 중', wildlife: '짐승 떼를 풀어놓는 중',
+  camera: '화면을 잡는 중', postfx: '색감을 입히는 중',
+  audio: '바람 소리를 맞추는 중', hud: '마무리 중', ready: '준비 완료',
 };
+
+// 간판 텍스처는 초기화 때 한 번만 그려지므로 한글 글꼴을 먼저 불러온다 (최대 4초 대기).
+try {
+  await Promise.race([
+    Promise.all([
+      document.fonts.load('700 40px "Noto Serif KR"', '한글 간판 레드 샌즈'),
+      document.fonts.load('400 40px "Noto Serif KR"', '한글 간판 레드 샌즈'),
+    ]),
+    new Promise((r) => setTimeout(r, 4000)),
+  ]);
+} catch (e) { /* 글꼴 실패 시 시스템 글꼴 사용 */ }
 
 await engine.initAll((p, id) => {
   if (barEl) barEl.style.right = `${Math.round((1 - p) * 100)}%`;
